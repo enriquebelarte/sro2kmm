@@ -1,0 +1,9 @@
+- name: Check to see if node "{{ node }}" is healthy 
+  command: /usr/local/bin/oc get --kubeconfig="{{ local_kubeconfig }}"  --raw /api/v1/nodes/{{ node }}/proxy/healthz
+  register: node_health
+  #  delegate_to: localhost
+  until: "'ok' in node_health.stdout_lines"
+  #ignore_errors: true
+  delay: 20
+  retries: 5
+
